@@ -4,23 +4,19 @@ Country, state, and city picker for React Native
 
 ## Installation
 
-
 ```sh
 npm install react-native-country-state-city-picker
 ```
 
-
 ## Usage
 
-
 ```js
-import { multiply } from 'react-native-country-state-city-picker';
+import { multiply } from 'react-native-country-state-city-picker'
 
 // ...
 
-const result = multiply(3, 7);
+const result = multiply(3, 7)
 ```
-
 
 ## Contributing
 

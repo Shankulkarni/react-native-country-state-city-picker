@@ -21,6 +21,7 @@ export default defineConfig([
     rules: {
       'react/react-in-jsx-scope': 'off',
       'prettier/prettier': 'error',
+      'react/no-unstable-nested-components': ['warn', { allowAsProps: true }],
     },
   },
   {
