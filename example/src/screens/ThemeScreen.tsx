@@ -65,6 +65,19 @@ const ROSE_THEME: Partial<PickerTheme> = {
 
 type ThemeOption = 'auto' | 'dark' | 'brand' | 'rose'
 
+type CardColors = {
+	bg: string
+	title: string
+	description: string
+}
+
+const CARD_COLORS: Record<ThemeOption, CardColors> = {
+	auto: { bg: '#ffffff', title: '#111827', description: '#6b7280' },
+	dark: { bg: '#1c1c1e', title: '#f2f2f7', description: '#a1a1aa' },
+	brand: { bg: '#1e1b4b', title: '#e0e7ff', description: '#818cf8' },
+	rose: { bg: '#fff1f2', title: '#881337', description: '#e11d48' },
+}
+
 const THEME_MAP: Record<ThemeOption, Partial<PickerTheme> | undefined> = {
 	auto: undefined,
 	dark: DARK_THEME,
@@ -93,6 +106,7 @@ export function ThemeScreen() {
 	})
 
 	const theme = THEME_MAP[activeTheme]
+	const cardColors = CARD_COLORS[activeTheme]
 	const screenBg =
 		activeTheme === 'dark'
 			? '#000000'
@@ -110,6 +124,9 @@ export function ThemeScreen() {
 			<Section
 				title="Theme switcher"
 				description="Pick a palette and open any picker — all theme tokens should apply consistently to triggers, modal sheet, search, rows, and empty state."
+				cardBackground={cardColors.bg}
+				titleColor={cardColors.title}
+				descriptionColor={cardColors.description}
 			>
 				<View style={styles.toggle}>
 					{THEME_OPTIONS.map((opt) => (

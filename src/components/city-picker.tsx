@@ -20,6 +20,7 @@ type CityPickerProps = PickerRenderProps & {
 	stateCode: string | null | undefined
 	value: City | null
 	onChange: (city: City) => void
+	notApplicable?: boolean
 	placeholder?: string
 	theme?: Partial<PickerTheme>
 	labels?: Partial<PickerLabels>
@@ -35,6 +36,7 @@ export function CityPicker({
 	stateCode,
 	value,
 	onChange,
+	notApplicable = false,
 	placeholder,
 	theme,
 	labels,
@@ -56,6 +58,8 @@ export function CityPicker({
 	const colorScheme = useColorScheme()
 
 	const isDisabled = !countryCode || !stateCode
+	const isNotApplicable =
+		notApplicable || (!isLoading && !error && !!stateCode && data.length === 0)
 
 	const items = useMemo(
 		() =>
@@ -75,14 +79,16 @@ export function CityPicker({
 		<>
 			<PickerTrigger
 				label={resolvedLabels.cityLabel}
-				value={value?.name ?? null}
+				value={isNotApplicable ? null : (value?.name ?? null)}
 				placeholder={
-					isDisabled
-						? resolvedLabels.cityDisabledPlaceholder
-						: (placeholder ?? resolvedLabels.cityPlaceholder)
+					isNotApplicable
+						? resolvedLabels.cityNotApplicable
+						: isDisabled
+							? resolvedLabels.cityDisabledPlaceholder
+							: (placeholder ?? resolvedLabels.cityPlaceholder)
 				}
 				isLoading={isLoading}
-				isDisabled={isDisabled}
+				isDisabled={isDisabled || isNotApplicable}
 				disabledHint={resolvedLabels.cityDisabledHint}
 				hasError={!!error}
 				fallbackValue={fallback}

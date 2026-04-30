@@ -1,6 +1,7 @@
 import {
 	Animated,
 	FlatList,
+	Keyboard,
 	KeyboardAvoidingView,
 	Modal,
 	Platform,
@@ -66,8 +67,22 @@ export function PickerModal({
 	onClose,
 }: PickerModalProps) {
 	const [search, setSearch] = useState('')
+	const [keyboardVisible, setKeyboardVisible] = useState(false)
 	const translateY = useRef(new Animated.Value(600)).current
 	const searchRef = useRef<ElementRef<typeof TextInput>>(null)
+
+	useEffect(() => {
+		const show = Keyboard.addListener('keyboardWillShow', () =>
+			setKeyboardVisible(true)
+		)
+		const hide = Keyboard.addListener('keyboardWillHide', () =>
+			setKeyboardVisible(false)
+		)
+		return () => {
+			show.remove()
+			hide.remove()
+		}
+	}, [])
 
 	useEffect(() => {
 		if (visible) {
@@ -131,7 +146,7 @@ export function PickerModal({
 						styles.sheet,
 						{
 							backgroundColor: theme.sheetBackground,
-							paddingBottom: bottomInset,
+							paddingBottom: keyboardVisible ? 0 : bottomInset,
 							transform: [{ translateY }],
 						},
 					]}
@@ -185,6 +200,7 @@ export function PickerModal({
 						keyExtractor={(item) => item.value}
 						keyboardShouldPersistTaps="handled"
 						accessibilityRole="list"
+						style={styles.list}
 						renderItem={({ item }) =>
 							renderItem ? (
 								renderItem({
@@ -257,7 +273,10 @@ const styles = StyleSheet.create({
 		borderTopLeftRadius: 20,
 		borderTopRightRadius: 20,
 		paddingBottom: 32,
-		maxHeight: '80%',
+		height: '80%',
+	},
+	list: {
+		flex: 1,
 	},
 	handle: {
 		width: 40,

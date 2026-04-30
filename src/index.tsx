@@ -8,6 +8,7 @@ export { StatePicker } from './components/state-picker'
 export { useCities } from './hooks/use-cities'
 export { useCountries } from './hooks/use-countries'
 export { usePickerTheme } from './hooks/use-picker-theme'
+export { usePresetSelection } from './hooks/use-preset-selection'
 export { useStates } from './hooks/use-states'
 
 // Types

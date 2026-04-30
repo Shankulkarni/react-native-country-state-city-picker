@@ -1,17 +1,24 @@
 import { useState } from 'react'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import {
+	ActivityIndicator,
+	ScrollView,
+	StyleSheet,
+	Text,
+	View,
+} from 'react-native'
 import {
 	CityPicker,
 	CountryPicker,
 	CountryStateCityPicker,
 	StatePicker,
+	usePresetSelection,
 	type City,
 	type Country,
 	type PickerSelection,
 	type State,
 } from 'react-native-country-state-city-picker'
-import { Section } from '../components/Section'
 import { Result } from '../components/Result'
+import { Section } from '../components/Section'
 
 // A pre-built Country object matching the library type exactly
 const INDIA: Country = {
@@ -27,25 +34,63 @@ const MAHARASHTRA: State = {
 	countryCode: 'IN',
 }
 
+// Simulated data as stored by a backend — plain strings
+const BACKEND_USER = {
+	country: 'IN', // ISO code
+	state: 'Maharashtra', // name
+	city: 'Mumbai', // name
+}
+
+function BackendPresetDemo() {
+	const { selection, isLoading, error } = usePresetSelection(BACKEND_USER)
+	const [result, setResult] = useState<Partial<PickerSelection>>(
+		BACKEND_USER as never
+	)
+
+	if (isLoading) {
+		return (
+			<View style={styles.loadingRow}>
+				<ActivityIndicator size="small" color="#4f46e5" />
+				<Text style={styles.loadingText}>Resolving from backend data…</Text>
+			</View>
+		)
+	}
+
+	if (error) {
+		return <Text style={styles.errorText}>Error: {error.message}</Text>
+	}
+
+	return (
+		<>
+			<CountryStateCityPicker defaultValue={selection} onSelect={setResult} />
+			<Result value={result} />
+		</>
+	)
+}
+
 export function PresetsScreen() {
 	// --- Preset country only ---
 	const [presetCountry, setPresetCountry] = useState<PickerSelection>({
-		country: null,
+		country: INDIA,
 		state: null,
 		city: null,
 	})
 
 	// --- Preset country + state + city cascade ---
 	const [presetFull, setPresetFull] = useState<PickerSelection>({
-		country: null,
-		state: null,
+		country: INDIA,
+		state: MAHARASHTRA,
 		city: null,
 	})
 
-	// --- Disabled state demonstration ---
+	// --- Disabled state demonstration (section 3) ---
 	const [demoCountry, setDemoCountry] = useState<Country | null>(null)
 	const [demoState, setDemoState] = useState<State | null>(null)
 	const [demoCity, setDemoCity] = useState<City | null>(null)
+
+	// --- Country + State only (section 5) — separate state so sections don't interfere ---
+	const [csCountry, setCsCountry] = useState<Country | null>(null)
+	const [csState, setCsState] = useState<State | null>(null)
 
 	// --- Style props ---
 	const [styledSelection, setStyledSelection] = useState<PickerSelection>({
@@ -138,19 +183,27 @@ export function PresetsScreen() {
 			>
 				<View style={styles.group}>
 					<CountryPicker
-						value={demoCountry}
+						value={csCountry}
 						onChange={(c) => {
-							setDemoCountry(c)
-							setDemoState(null)
+							setCsCountry(c)
+							setCsState(null)
 						}}
 					/>
 					<StatePicker
-						countryCode={demoCountry?.isoCode}
-						value={demoState}
-						onChange={setDemoState}
+						countryCode={csCountry?.isoCode}
+						value={csState}
+						onChange={setCsState}
 					/>
 				</View>
-				<Result value={{ country: demoCountry, state: demoState }} />
+				<Result value={{ country: csCountry, state: csState }} />
+			</Section>
+
+			{/* 6. usePresetSelection — resolve strings from a backend */}
+			<Section
+				title="6. usePresetSelection — pre-fill from backend"
+				description={`Simulates a user re-opening a screen where country/state/city were saved as strings. usePresetSelection resolves them (by name or ISO code, case-insensitive) into full objects before passing to defaultValue.\n\nBackend data: country="IN", state="Maharashtra", city="Mumbai"`}
+			>
+				<BackendPresetDemo />
 			</Section>
 		</ScrollView>
 	)
@@ -169,4 +222,7 @@ const styles = StyleSheet.create({
 		color: '#6b7280',
 	},
 	pickerInput: { borderRadius: 4, borderWidth: 2, borderColor: '#4f46e5' },
+	loadingRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+	loadingText: { fontSize: 13, color: '#6b7280' },
+	errorText: { fontSize: 13, color: '#dc2626' },
 })

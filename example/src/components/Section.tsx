@@ -5,14 +5,38 @@ type SectionProps = {
 	title: string
 	description?: string
 	children: ReactNode
+	cardBackground?: string
+	titleColor?: string
+	descriptionColor?: string
 }
 
-export function Section({ title, description, children }: SectionProps) {
+export function Section({
+	title,
+	description,
+	children,
+	cardBackground,
+	titleColor,
+	descriptionColor,
+}: SectionProps) {
 	return (
-		<View style={styles.container}>
-			<Text style={styles.title}>{title}</Text>
+		<View
+			style={[
+				styles.container,
+				cardBackground ? { backgroundColor: cardBackground } : null,
+			]}
+		>
+			<Text style={[styles.title, titleColor ? { color: titleColor } : null]}>
+				{title}
+			</Text>
 			{description ? (
-				<Text style={styles.description}>{description}</Text>
+				<Text
+					style={[
+						styles.description,
+						descriptionColor ? { color: descriptionColor } : null,
+					]}
+				>
+					{description}
+				</Text>
 			) : null}
 			<View style={styles.body}>{children}</View>
 		</View>

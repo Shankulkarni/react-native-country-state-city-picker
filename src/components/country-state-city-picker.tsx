@@ -46,11 +46,13 @@ export function CountryStateCityPicker({
 	)
 	const [state, setState] = useState<State | null>(defaultValue?.state ?? null)
 	const [city, setCity] = useState<City | null>(defaultValue?.city ?? null)
+	const [countryHasNoStates, setCountryHasNoStates] = useState(false)
 
 	function handleCountryChange(selected: Country) {
 		setCountry(selected)
 		setState(null)
 		setCity(null)
+		setCountryHasNoStates(false)
 		onSelect({ country: selected, state: null, city: null })
 	}
 
@@ -86,6 +88,7 @@ export function CountryStateCityPicker({
 				countryCode={country?.isoCode}
 				value={state}
 				onChange={handleStateChange}
+				onNoStates={() => setCountryHasNoStates(true)}
 				theme={theme}
 				labels={labels}
 				bottomInset={bottomInset}
@@ -103,6 +106,7 @@ export function CountryStateCityPicker({
 				stateCode={state?.isoCode}
 				value={city}
 				onChange={handleCityChange}
+				notApplicable={countryHasNoStates}
 				theme={theme}
 				labels={labels}
 				bottomInset={bottomInset}

@@ -52,6 +52,7 @@
         "react-native-web": "~0.21.0",
       },
       "devDependencies": {
+        "babel-preset-expo": "^55.0.18",
         "react-native-builder-bob": "^0.41.0",
         "react-native-monorepo-config": "^0.3.3",
       },

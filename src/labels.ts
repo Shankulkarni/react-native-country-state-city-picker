@@ -14,6 +14,9 @@ export type PickerLabels = {
 	// Disabled-state placeholders (shown when parent not yet selected)
 	stateDisabledPlaceholder: string
 	cityDisabledPlaceholder: string
+	// Not-applicable placeholders (shown when the level has no data)
+	stateNotApplicable: string
+	cityNotApplicable: string
 	// Disabled-state accessibility hints (announced by screen readers)
 	stateDisabledHint: string
 	cityDisabledHint: string
@@ -45,6 +48,8 @@ export const DEFAULT_LABELS: PickerLabels = {
 	cityPlaceholder: 'Select city',
 	stateDisabledPlaceholder: 'Select a country first',
 	cityDisabledPlaceholder: 'Select a state first',
+	stateNotApplicable: 'Not applicable',
+	cityNotApplicable: 'Not applicable',
 	stateDisabledHint: 'Select a country to enable state picker',
 	cityDisabledHint: 'Select a state to enable city picker',
 	loadingLabel: (label) => `Loading ${label.toLocaleLowerCase()} options`,

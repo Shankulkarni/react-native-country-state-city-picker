@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import {
 	useColorScheme,
 	type StyleProp,
@@ -19,6 +19,7 @@ type StatePickerProps = PickerRenderProps & {
 	countryCode: string | null | undefined
 	value: State | null
 	onChange: (state: State) => void
+	onNoStates?: () => void
 	placeholder?: string
 	theme?: Partial<PickerTheme>
 	labels?: Partial<PickerLabels>
@@ -33,6 +34,7 @@ export function StatePicker({
 	countryCode,
 	value,
 	onChange,
+	onNoStates,
 	placeholder,
 	theme,
 	labels,
@@ -54,6 +56,17 @@ export function StatePicker({
 	const colorScheme = useColorScheme()
 
 	const isDisabled = !countryCode
+	const isNotApplicable =
+		!isLoading && !error && !!countryCode && data.length === 0
+
+	const onNoStatesRef = useRef(onNoStates)
+	useEffect(() => {
+		onNoStatesRef.current = onNoStates
+	})
+
+	useEffect(() => {
+		if (isNotApplicable) onNoStatesRef.current?.()
+	}, [isNotApplicable])
 
 	const items = useMemo(
 		() =>
@@ -73,14 +86,16 @@ export function StatePicker({
 		<>
 			<PickerTrigger
 				label={resolvedLabels.stateLabel}
-				value={value?.name ?? null}
+				value={isNotApplicable ? null : (value?.name ?? null)}
 				placeholder={
-					isDisabled
-						? resolvedLabels.stateDisabledPlaceholder
-						: (placeholder ?? resolvedLabels.statePlaceholder)
+					isNotApplicable
+						? resolvedLabels.stateNotApplicable
+						: isDisabled
+							? resolvedLabels.stateDisabledPlaceholder
+							: (placeholder ?? resolvedLabels.statePlaceholder)
 				}
 				isLoading={isLoading}
-				isDisabled={isDisabled}
+				isDisabled={isDisabled || isNotApplicable}
 				disabledHint={resolvedLabels.stateDisabledHint}
 				hasError={!!error}
 				fallbackValue={fallback}
