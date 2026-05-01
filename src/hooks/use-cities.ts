@@ -9,6 +9,12 @@ type UseCitiesResult = {
 	error: Error | null
 }
 
+type FetchResult = {
+	forKey: string | null
+	data: City[]
+	error: Error | null
+}
+
 function cacheKey(countryCode: string, stateCode: string): string {
 	return `${countryCode}:${stateCode}`
 }
@@ -17,44 +23,36 @@ export function useCities(
 	countryCode: string | null | undefined,
 	stateCode: string | null | undefined
 ): UseCitiesResult {
-	const enabled = !!countryCode && !!stateCode
-
-	const [state, setState] = useState<UseCitiesResult>(() => {
-		if (!enabled) return { data: [], isLoading: false, error: null }
-		const key = cacheKey(countryCode!, stateCode!)
-		const cached = citiesCache.get(key)
-		return cached
-			? { data: cached, isLoading: false, error: null }
-			: { data: [], isLoading: true, error: null }
+	const [result, setResult] = useState<FetchResult>({
+		forKey: null,
+		data: [],
+		error: null,
 	})
 
 	useEffect(() => {
 		if (!countryCode || !stateCode) {
-			setState({ data: [], isLoading: false, error: null })
+			setResult({ forKey: null, data: [], error: null })
 			return
 		}
 
 		const key = cacheKey(countryCode, stateCode)
 
 		if (citiesCache.has(key)) {
-			const cached = citiesCache.get(key)!
-			setState({ data: cached, isLoading: false, error: null })
+			setResult({ forKey: key, data: citiesCache.get(key)!, error: null })
 			return
 		}
-
-		setState({ data: [], isLoading: true, error: null })
 
 		let cancelled = false
 
 		cachedFetch(citiesCache, key, () => fetchCities(countryCode, stateCode))
 			.then((data) => {
-				if (!cancelled) setState({ data, isLoading: false, error: null })
+				if (!cancelled) setResult({ forKey: key, data, error: null })
 			})
 			.catch((err: unknown) => {
 				if (!cancelled)
-					setState({
+					setResult({
+						forKey: key,
 						data: [],
-						isLoading: false,
 						error: err instanceof Error ? err : new Error(String(err)),
 					})
 			})
@@ -64,5 +62,21 @@ export function useCities(
 		}
 	}, [countryCode, stateCode])
 
-	return state
+	// Derive the correct state synchronously so there is no render where
+	// isLoading is falsely false between the keys changing and the effect
+	// firing (which would cause a spurious isNotApplicable=true flash).
+	if (!countryCode || !stateCode)
+		return { data: [], isLoading: false, error: null }
+
+	const key = cacheKey(countryCode, stateCode)
+
+	const cached = citiesCache.get(key)
+	if (cached) return { data: cached, isLoading: false, error: null }
+
+	if (result.forKey === key) {
+		return { data: result.data, isLoading: false, error: result.error }
+	}
+
+	// result is for a different (or null) key — fetch is in progress
+	return { data: [], isLoading: true, error: null }
 }

@@ -9,42 +9,47 @@ type UseStatesResult = {
 	error: Error | null
 }
 
+type FetchResult = {
+	forCode: string | null
+	data: State[]
+	error: Error | null
+}
+
 export function useStates(
 	countryCode: string | null | undefined
 ): UseStatesResult {
-	const [state, setState] = useState<UseStatesResult>(() => {
-		if (!countryCode) return { data: [], isLoading: false, error: null }
-		const cached = statesCache.get(countryCode)
-		return cached
-			? { data: cached, isLoading: false, error: null }
-			: { data: [], isLoading: true, error: null }
+	const [result, setResult] = useState<FetchResult>({
+		forCode: null,
+		data: [],
+		error: null,
 	})
 
 	useEffect(() => {
 		if (!countryCode) {
-			setState({ data: [], isLoading: false, error: null })
+			setResult({ forCode: null, data: [], error: null })
 			return
 		}
 
 		if (statesCache.has(countryCode)) {
-			const cached = statesCache.get(countryCode)!
-			setState({ data: cached, isLoading: false, error: null })
+			setResult({
+				forCode: countryCode,
+				data: statesCache.get(countryCode)!,
+				error: null,
+			})
 			return
 		}
-
-		setState({ data: [], isLoading: true, error: null })
 
 		let cancelled = false
 
 		cachedFetch(statesCache, countryCode, () => fetchStates(countryCode))
 			.then((data) => {
-				if (!cancelled) setState({ data, isLoading: false, error: null })
+				if (!cancelled) setResult({ forCode: countryCode, data, error: null })
 			})
 			.catch((err: unknown) => {
 				if (!cancelled)
-					setState({
+					setResult({
+						forCode: countryCode,
 						data: [],
-						isLoading: false,
 						error: err instanceof Error ? err : new Error(String(err)),
 					})
 			})
@@ -54,5 +59,18 @@ export function useStates(
 		}
 	}, [countryCode])
 
-	return state
+	// Derive the correct state synchronously so there is no render where
+	// isLoading is falsely false between the countryCode changing and the
+	// effect firing (which would cause a spurious isNotApplicable=true flash).
+	if (!countryCode) return { data: [], isLoading: false, error: null }
+
+	const cached = statesCache.get(countryCode)
+	if (cached) return { data: cached, isLoading: false, error: null }
+
+	if (result.forCode === countryCode) {
+		return { data: result.data, isLoading: false, error: result.error }
+	}
+
+	// result is for a different (or null) code — fetch is in progress
+	return { data: [], isLoading: true, error: null }
 }
