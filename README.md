@@ -1,6 +1,6 @@
-# 🌍 react-native-country-state-city-picker
+# react-native-country-state-city-picker
 
-A fully featured, accessible, and customizable **country → state → city** cascade picker for React Native.
+Drop-in country → state → city picker for React Native. Always up-to-date geodata, zero native code, auto dark/light mode, fully accessible out of the box.
 
 [![npm version](https://img.shields.io/npm/v/react-native-country-state-city-picker?style=flat-square&color=6366f1)](https://www.npmjs.com/package/react-native-country-state-city-picker)
 [![npm downloads](https://img.shields.io/npm/dm/react-native-country-state-city-picker?style=flat-square&color=6366f1)](https://www.npmjs.com/package/react-native-country-state-city-picker)
@@ -12,32 +12,9 @@ A fully featured, accessible, and customizable **country → state → city** ca
 
 ---
 
-## ✨ Features
+<video src="https://github.com/user-attachments/assets/700cbb65-31ee-4e0d-a9e5-f946edb90cab" autoplay loop muted playsinline width="100%"></video>
 
-| Feature                      | Details                                                                      |
-| ---------------------------- | ---------------------------------------------------------------------------- |
-| 🌐 **Live geodata**          | Countries, states, and cities via [geocoded.me](https://api.geocoded.me) API |
-| 🌑 **Dark & light mode**     | Auto-detects system color scheme; swap with a single prop                    |
-| ♿ **Accessibility-first**   | ARIA roles, live regions, dynamic a11y labels, focus management              |
-| 🌍 **Internationalization**  | 37 customizable label strings — ship in any language                         |
-| 🎨 **Fully themeable**       | 29 design tokens covering every pixel of the UI                              |
-| 🔌 **Render props**          | Replace trigger, row, search, or empty state with your own UI                |
-| 🪝 **Headless hooks**        | `useCountries`, `useStates`, `useCities` — build your own UI from scratch    |
-| 🔗 **Cascade or standalone** | Use all three pickers together or any single one in isolation                |
-| ⚡ **Smart caching**         | LRU cache with in-flight deduplication — no duplicate network requests       |
-| 🔁 **Retry logic**           | 3 attempts with exponential backoff on network failures                      |
-| 📦 **Zero native code**      | Pure JS/TS — no linking, no CocoaPods, no Gradle                             |
-| 🧪 **Testable**              | `testID` on every interactive element                                        |
-| 💙 **TypeScript-first**      | Strict types for all components, hooks, themes, and labels                   |
-| 🏗️ **New Architecture**      | Fabric-compatible, Bridgeless-safe                                           |
-
----
-
-## 📸 Preview
-
-| Light          | Dark           | Custom Theme   |
-| -------------- | -------------- | -------------- |
-| _(screenshot)_ | _(screenshot)_ | _(screenshot)_ |
+<img src="https://raw.githubusercontent.com/shankulkarni/react-native-country-state-city-picker/main/assets/screenshot.png" alt="Screenshot" width="401" />
 
 ---
 
@@ -115,6 +92,27 @@ export default function AddressForm() {
 	)
 }
 ```
+
+---
+
+## ✨ Features
+
+| Feature                      | Details                                                                      |
+| ---------------------------- | ---------------------------------------------------------------------------- |
+| 🌐 **Live geodata**          | Countries, states, and cities via [geocoded.me](https://api.geocoded.me) API |
+| 🌑 **Dark & light mode**     | Auto-detects system color scheme; swap with a single prop                    |
+| ♿ **Accessibility-first**   | ARIA roles, live regions, dynamic a11y labels, focus management              |
+| 🌍 **Internationalization**  | 37 customizable label strings — ship in any language                         |
+| 🎨 **Fully themeable**       | 29 design tokens covering every pixel of the UI                              |
+| 🔌 **Render props**          | Replace trigger, row, search, or empty state with your own UI                |
+| 🪝 **Headless hooks**        | `useCountries`, `useStates`, `useCities` — build your own UI from scratch    |
+| 🔗 **Cascade or standalone** | Use all three pickers together or any single one in isolation                |
+| ⚡ **Smart caching**         | LRU cache with in-flight deduplication — no duplicate network requests       |
+| 🔁 **Retry logic**           | 3 attempts with exponential backoff on network failures                      |
+| 📦 **Zero native code**      | Pure JS/TS — no linking, no CocoaPods, no Gradle                             |
+| 🧪 **Testable**              | `testID` on every interactive element                                        |
+| 💙 **TypeScript-first**      | Strict types for all components, hooks, themes, and labels                   |
+| 🏗️ **New Architecture**      | Fabric-compatible, Bridgeless-safe                                           |
 
 ---
 
