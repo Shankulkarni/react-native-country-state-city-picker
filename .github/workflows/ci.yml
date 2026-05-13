@@ -89,7 +89,7 @@ jobs:
       - name: Prebuild expo app for Android
         if: env.turbo_cache_hit != 1
         run: |
-          bun run example expo prebuild --platform android
+          cd example && bunx expo prebuild --platform android
 
       - name: Cache Gradle
         if: env.turbo_cache_hit != 1
@@ -149,7 +149,7 @@ jobs:
       - name: Prebuild expo app for iOS
         if: env.turbo_cache_hit != 1
         run: |
-          bun run example expo prebuild --platform ios
+          cd example && bunx expo prebuild --platform ios
 
       - name: Build example for iOS
         run: |
@@ -167,4 +167,4 @@ jobs:
 
       - name: Build example for Web
         run: |
-          bun run example build:web
+          bun --filter react-native-country-state-city-picker-example run build:web
