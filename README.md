@@ -14,7 +14,7 @@ Drop-in country → state → city picker for React Native. Always up-to-date ge
 
 <video src="https://github.com/user-attachments/assets/700cbb65-31ee-4e0d-a9e5-f946edb90cab" autoplay loop muted playsinline width="100%"></video>
 
-<img src="https://raw.githubusercontent.com/shankulkarni/react-native-country-state-city-picker/main/assets/screenshot.png" alt="Screenshot" width="401" />
+<!-- <img src="https://raw.githubusercontent.com/shankulkarni/react-native-country-state-city-picker/main/assets/screenshot.png" alt="Screenshot" width="401" /> -->
 
 ---
 
