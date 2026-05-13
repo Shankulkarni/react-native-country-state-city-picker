@@ -2,7 +2,7 @@ import { fetchCountries, fetchStates, fetchCities } from '../../api/geocoded'
 
 // Mock global fetch
 const mockFetch = jest.fn()
-global.fetch = mockFetch
+globalThis.fetch = mockFetch
 
 beforeEach(() => {
 	mockFetch.mockReset()

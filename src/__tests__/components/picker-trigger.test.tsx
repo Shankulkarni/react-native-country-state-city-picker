@@ -1,4 +1,3 @@
-import React from 'react'
 import { render, fireEvent } from '@testing-library/react-native'
 import { PickerTrigger } from '../../components/picker-trigger'
 import { DEFAULT_THEME } from '../../theme'
@@ -80,9 +79,9 @@ describe('PickerTrigger', () => {
 
 	it('custom renderTrigger replaces entire UI', () => {
 		const customTrigger = jest.fn(({ label, onPress }) => (
-			<React.Fragment>
+			<>
 				<button onClick={onPress}>{label}</button>
-			</React.Fragment>
+			</>
 		))
 
 		render(<PickerTrigger {...baseProps} renderTrigger={customTrigger} />)

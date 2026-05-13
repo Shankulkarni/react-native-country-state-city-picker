@@ -87,7 +87,10 @@ describe('useStates', () => {
 		const states = [{ name: 'X', isoCode: 'X', countryCode: 'XX' }]
 		mockCachedFetch.mockResolvedValue(states)
 
-		const { result, rerender } = renderHook(({ code }) => useStates(code), {
+		const { result, rerender } = renderHook<
+			ReturnType<typeof useStates>,
+			{ code: string | null }
+		>(({ code }) => useStates(code), {
 			initialProps: { code: 'XX' as string | null },
 		})
 

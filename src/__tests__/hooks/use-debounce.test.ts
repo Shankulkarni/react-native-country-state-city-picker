@@ -16,10 +16,12 @@ describe('useDebounce', () => {
 	})
 
 	it('delays updates by specified ms', () => {
-		const { result, rerender } = renderHook(
-			({ value, delay }) => useDebounce(value, delay),
-			{ initialProps: { value: 'first', delay: 300 } }
-		)
+		const { result, rerender } = renderHook<
+			string,
+			{ value: string; delay: number }
+		>(({ value, delay }) => useDebounce(value, delay), {
+			initialProps: { value: 'first', delay: 300 },
+		})
 
 		rerender({ value: 'second', delay: 300 })
 		expect(result.current).toBe('first')
@@ -31,10 +33,12 @@ describe('useDebounce', () => {
 	})
 
 	it('only emits final value on rapid changes', () => {
-		const { result, rerender } = renderHook(
-			({ value, delay }) => useDebounce(value, delay),
-			{ initialProps: { value: 'a', delay: 200 } }
-		)
+		const { result, rerender } = renderHook<
+			string,
+			{ value: string; delay: number }
+		>(({ value, delay }) => useDebounce(value, delay), {
+			initialProps: { value: 'a', delay: 200 },
+		})
 
 		rerender({ value: 'b', delay: 200 })
 		act(() => {

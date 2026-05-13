@@ -25,7 +25,7 @@
 		"build": "bob build",
 		"clean": "del-cli lib",
 		"prepare": "bob build && husky",
-		"typecheck": "tsc",
+		"typecheck": "tsc --project tsconfig.test.json",
 		"lint": "eslint \"**/*.{js,ts,tsx}\"",
 		"format": "prettier --write \"**/*.{js,ts,tsx,json,md}\"",
 		"format:check": "prettier --check \"**/*.{js,ts,tsx,json,md}\"",
