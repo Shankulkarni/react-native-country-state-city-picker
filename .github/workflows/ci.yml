@@ -167,4 +167,4 @@ jobs:
 
       - name: Build example for Web
         run: |
-          bun --filter react-native-country-state-city-picker-example run build:web
+          cd example && bun run build:web
