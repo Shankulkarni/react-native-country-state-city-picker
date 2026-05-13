@@ -1,0 +1,16 @@
+appId: com.countrystatecitypicker.example
+---
+# Country with no states: state and city show "Not applicable"
+- launchApp
+- tapOn: "Basic"
+
+# Select a country that has no states (e.g., Hong Kong)
+- tapOn:
+    id: "csc-country-trigger"
+- tapOn:
+    id: "csc-country-search"
+- inputText: "Hong Kong"
+- tapOn: "🇭🇰  Hong Kong"
+
+# State should show "Not applicable"
+- assertVisible: "Not applicable"

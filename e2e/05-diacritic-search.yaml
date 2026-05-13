@@ -1,0 +1,30 @@
+appId: com.countrystatecitypicker.example
+---
+# Diacritic-insensitive search: "sao" finds "São Paulo"
+- launchApp
+- tapOn: "Basic"
+
+# Select Brazil
+- tapOn:
+    id: "csc-country-trigger"
+- tapOn:
+    id: "csc-country-search"
+- inputText: "Brazil"
+- tapOn: "🇧🇷  Brazil"
+
+# Select São Paulo state
+- tapOn:
+    id: "csc-state-trigger"
+- tapOn:
+    id: "csc-state-search"
+- inputText: "Sao"
+- assertVisible: "São Paulo"
+- tapOn: "São Paulo"
+
+# Open city picker and search with plain ASCII
+- tapOn:
+    id: "csc-city-trigger"
+- tapOn:
+    id: "csc-city-search"
+- inputText: "sao"
+- assertVisible: "São Paulo"

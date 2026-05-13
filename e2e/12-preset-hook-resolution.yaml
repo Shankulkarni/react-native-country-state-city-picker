@@ -1,0 +1,19 @@
+appId: com.countrystatecitypicker.example
+---
+# usePresetSelection: backend string resolution fills pickers
+- launchApp
+- tapOn: "Presets"
+
+# Scroll to the usePresetSelection demo section
+- scrollUntilVisible:
+    element: "usePresetSelection"
+    direction: DOWN
+
+# Wait for async resolution of "IN" → India, "Maharashtra", "Mumbai"
+- extendedWaitUntil:
+    visible: "Maharashtra"
+    timeout: 15000
+
+- assertVisible: "🇮🇳  India"
+- assertVisible: "Maharashtra"
+- assertVisible: "Mumbai"

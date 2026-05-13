@@ -1,0 +1,25 @@
+appId: com.countrystatecitypicker.example
+---
+# Search filters results correctly
+- launchApp
+- tapOn: "Basic"
+
+# Open country picker
+- tapOn:
+    id: "csc-country-trigger"
+
+# Search for "Ind" — should show India and Indonesia
+- tapOn:
+    id: "csc-country-search"
+- inputText: "Ind"
+- assertVisible: "🇮🇳  India"
+- assertVisible: "🇮🇩  Indonesia"
+
+# Should NOT show unrelated countries
+- assertNotVisible: "🇺🇸  United States"
+
+# Clear and search for something with no results
+- clearText:
+    id: "csc-country-search"
+- inputText: "xyznonexistent"
+- assertVisible: "No results"

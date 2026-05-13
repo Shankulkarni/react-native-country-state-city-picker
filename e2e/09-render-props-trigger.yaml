@@ -1,0 +1,20 @@
+appId: com.countrystatecitypicker.example
+---
+# Render props: custom trigger renders and opens modal on tap
+- launchApp
+- tapOn: "Render Props"
+
+# The render props screen shows custom-styled pickers
+# Verify the custom trigger is tappable and opens modal
+- scrollUntilVisible:
+    element: "All Render Props"
+    direction: DOWN
+- tapOn:
+    id: "all-rp-country-trigger"
+- assertVisible: "Select Country"
+
+# Select a country to verify it works end-to-end
+- tapOn:
+    id: "all-rp-country-search"
+- inputText: "Japan"
+- tapOn: "🇯🇵  Japan"

@@ -1,0 +1,17 @@
+appId: com.countrystatecitypicker.example
+---
+# Theme switching: dark theme applies correctly
+- launchApp
+- tapOn: "Theme"
+
+# The theme screen should show different themed pickers
+- assertVisible: "Auto (System)"
+- assertVisible: "Dark"
+
+# Tap on dark theme picker to verify it opens
+- scrollUntilVisible:
+    element: "Dark"
+    direction: DOWN
+- tapOn:
+    id: "dark-country-trigger"
+- assertVisible: "Select Country"

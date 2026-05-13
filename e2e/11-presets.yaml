@@ -1,0 +1,13 @@
+appId: com.countrystatecitypicker.example
+---
+# Presets: verify preset country+state pre-fills pickers
+- launchApp
+- tapOn: "Presets"
+
+# The presets screen should show pre-filled pickers
+# Wait for preset resolution
+- extendedWaitUntil:
+    visible: "🇮🇳  India"
+    timeout: 10000
+
+- assertVisible: "🇮🇳  India"

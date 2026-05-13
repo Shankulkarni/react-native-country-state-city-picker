@@ -1,0 +1,13 @@
+appId: com.countrystatecitypicker.example
+---
+# Labels/i18n: verify Spanish labels appear
+- launchApp
+- tapOn: "Labels"
+
+# Spanish section should show translated labels
+- scrollUntilVisible:
+    element: "Español"
+    direction: DOWN
+- assertVisible: "País"
+- assertVisible: "Estado / Provincia"
+- assertVisible: "Ciudad"

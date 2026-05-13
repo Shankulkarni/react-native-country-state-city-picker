@@ -1,0 +1,27 @@
+appId: com.countrystatecitypicker.example
+---
+# Scroll performance: open country picker with 250+ items, scroll rapidly
+- launchApp
+- tapOn: "Basic"
+
+# Open country picker (has 250+ countries)
+- tapOn:
+    id: "csc-country-trigger"
+- assertVisible: "Select Country"
+
+# Scroll rapidly through the list
+- scroll:
+    direction: DOWN
+    speed: 80
+- scroll:
+    direction: DOWN
+    speed: 80
+- scroll:
+    direction: UP
+    speed: 80
+
+# App should still be responsive — search should work
+- tapOn:
+    id: "csc-country-search"
+- inputText: "Zim"
+- assertVisible: "🇿🇼  Zimbabwe"

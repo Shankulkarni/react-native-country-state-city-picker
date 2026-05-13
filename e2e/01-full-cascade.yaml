@@ -1,0 +1,42 @@
+appId: com.countrystatecitypicker.example
+---
+# Full cascade happy path: Select country → state → city
+- launchApp
+- assertVisible: "Basic"
+- tapOn: "Basic"
+
+# Select country
+- tapOn:
+    id: "csc-country-trigger"
+- assertVisible: "Select Country"
+- tapOn:
+    id: "csc-country-search"
+- inputText: "India"
+- tapOn: "🇮🇳  India"
+
+# Verify country selected
+- assertVisible: "🇮🇳  India"
+
+# Select state
+- tapOn:
+    id: "csc-state-trigger"
+- assertVisible: "Select State / Province"
+- tapOn:
+    id: "csc-state-search"
+- inputText: "Maha"
+- tapOn: "Maharashtra"
+
+# Verify state selected
+- assertVisible: "Maharashtra"
+
+# Select city
+- tapOn:
+    id: "csc-city-trigger"
+- assertVisible: "Select City"
+- tapOn:
+    id: "csc-city-search"
+- inputText: "Mumbai"
+- tapOn: "Mumbai"
+
+# Verify city selected
+- assertVisible: "Mumbai"

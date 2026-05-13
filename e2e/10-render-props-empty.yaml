@@ -1,0 +1,17 @@
+appId: com.countrystatecitypicker.example
+---
+# Render props: custom empty state shows on no results
+- launchApp
+- tapOn: "Render Props"
+
+- scrollUntilVisible:
+    element: "All Render Props"
+    direction: DOWN
+- tapOn:
+    id: "all-rp-country-trigger"
+- tapOn:
+    id: "all-rp-country-search"
+- inputText: "xyznonexistent"
+
+# Custom empty state should render
+- assertVisible: "Nothing found"

@@ -1,0 +1,18 @@
+appId: com.countrystatecitypicker.example
+---
+# Keyboard avoidance: modal adjusts when keyboard appears
+- launchApp
+- tapOn: "Basic"
+
+# Open country picker
+- tapOn:
+    id: "csc-country-trigger"
+
+# Focus search input (should bring up keyboard)
+- tapOn:
+    id: "csc-country-search"
+- inputText: "Aus"
+
+# Results should still be visible despite keyboard
+- assertVisible: "🇦🇺  Australia"
+- assertVisible: "🇦🇹  Austria"

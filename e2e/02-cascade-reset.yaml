@@ -1,0 +1,37 @@
+appId: com.countrystatecitypicker.example
+---
+# Cascade reset: Select full chain, then change country → state+city cleared
+- launchApp
+- tapOn: "Basic"
+
+# Select India → Maharashtra → Mumbai
+- tapOn:
+    id: "csc-country-trigger"
+- tapOn:
+    id: "csc-country-search"
+- inputText: "India"
+- tapOn: "🇮🇳  India"
+- tapOn:
+    id: "csc-state-trigger"
+- tapOn: "Maharashtra"
+- tapOn:
+    id: "csc-city-trigger"
+- tapOn:
+    id: "csc-city-search"
+- inputText: "Mumbai"
+- tapOn: "Mumbai"
+
+# Verify full selection
+- assertVisible: "Mumbai"
+
+# Now change country to US
+- tapOn:
+    id: "csc-country-trigger"
+- tapOn:
+    id: "csc-country-search"
+- inputText: "United States"
+- tapOn: "🇺🇸  United States"
+
+# State and city should be reset
+- assertVisible: "Select state"
+- assertVisible: "Select a state first"

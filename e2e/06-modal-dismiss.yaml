@@ -1,0 +1,18 @@
+appId: com.countrystatecitypicker.example
+---
+# Modal dismiss: tap backdrop to close without selecting
+- launchApp
+- tapOn: "Basic"
+
+# Open country picker
+- tapOn:
+    id: "csc-country-trigger"
+- assertVisible: "Select Country"
+
+# Tap backdrop to dismiss
+- tapOn:
+    id: "csc-country-backdrop"
+
+# Modal should be closed, placeholder still shown
+- assertVisible: "Select country"
+- assertNotVisible: "Select Country"
